@@ -1,4 +1,4 @@
-chrome-extension
+Iconfinder Chrome Extension
 ================
 
-chrome-extension
+Feel free to use this source code for your own plugins.
