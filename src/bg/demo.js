@@ -35,17 +35,26 @@
 		$('.searchField').on('input', function(e) { 
 			updateTags(); 
 		});
-		// Search on ENTER and/or SPACE 
-		$('.searchField').keypress(function(e) { 
-			if (e.keyCode == 32) {
-				if ($(".searchField").val().length != 0 ) {
-					search();	
-				} else {
-					$(".icons-found").html("0");
-				};
-			}
-		});
+		// Call Search 
+	    var timer, value;
+	    $('.searchField').bind('keyup', function() {
+	        clearTimeout(timer);
+	        var str = $(this).val();
+	        if (str.length > 2 && value != str) {
+	            timer = setTimeout(function() {
+	                value = str;
+					if ($(".searchField").val().length != 0 ) {
+						search();	
+					} else {
+						$(".icons-found").html("0");
+					};
+				// Wait X time after last keystroke
+	            }, 300);
+	        }
+	    });
 	});
+
+
 
 /* ==========================================================================
 	Update Tags  
@@ -57,13 +66,13 @@
 		var wordsToCheck = ["premium","free","vector","glyph","3d","outline","handdrawn","photorealistic","cartoon","pixel","pixels","smooth","flat" ]
 		var word = words[words.length - 1]
 
-		// Add tag if search macthes array
-		if($.inArray(word, wordsToCheck) === -1) {
-			// Nothing ...
-						$("#r0").click();
+		console.log(word)
 
+		// Select Style if search macthes array
+		if($.inArray(word, wordsToCheck) === -1) {
+			// Select All styles 
+			// $("#r0").click();
 		} else {
-			// console.log(".addTag." + word)
 			$(".f input").each(function(){
 				$("." + word).click();
 			})
@@ -80,42 +89,42 @@
    ========================================================================== */
 
 	var search = function() {
-  		var typing = $(".searchField").val();	
+  		var typing = $(".searchField").val().toLowerCase();	
 		var str = typing 
 
 		// Styles 
 		var styleType = ""
-		if ( str.indexOf("flat") > -1  || str.indexOf("Flat") > -1 ) {
+		if ( str.indexOf("flat") > -1 ) {
 			styleType = "flat"
 		}
-		if ( str.indexOf("glyph") > -1  || str.indexOf("Glyph") > -1 ) {
+		if ( str.indexOf("glyph") > -1 ) {
 			styleType = "glyph"
 		}
-		if ( str.indexOf("3d") > -1  || str.indexOf("3D") > -1 ) {
+		if ( str.indexOf("3d") > -1 ) {
 			styleType = "3d"
 		}
-		if ( str.indexOf("handdrawn") > -1  || str.indexOf("Handdrawn") > -1 ) {
+		if ( str.indexOf("handdrawn") > -1 ) {
 			styleType = "handdrawn"
 		}
-		if ( str.indexOf("outline") > -1  || str.indexOf("Outline") > -1 ) {
+		if ( str.indexOf("outline") > -1 ) {
 			styleType = "outline"
 		}
-		if ( str.indexOf("smooth") > -1  || str.indexOf("Smooth") > -1 ) {
+		if ( str.indexOf("smooth") > -1 ) {
 			styleType = "smooth"
 		}
-		if ( str.indexOf("pixel") > -1  || str.indexOf("Pixel") > -1 ) {
+		if ( str.indexOf("pixel") > -1 ) {
 			styleType = "glyph"
 		}
-		if ( str.indexOf("cartoon") > -1  || str.indexOf("Cartoon") > -1 ) {
+		if ( str.indexOf("cartoon") > -1 ) {
 			styleType = "cartoon"
 		}
-		if ( str.indexOf("photorealistic") > -1  || str.indexOf("Photorealistic") > -1 ) {
+		if ( str.indexOf("photorealistic") > -1 ) {
 			styleType = "photorealistic"
 		}
 		// Format 
 		var vector = "all"
 		var vectorSlug = "any"
-		if ( str.indexOf("vector") > -1  || str.indexOf("Vector") > -1 ) {
+		if ( str.indexOf("vector") > -1 ) {
 			vector = "1"
 			vectorSlug = "vector"
 		}
